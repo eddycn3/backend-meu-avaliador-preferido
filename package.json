@@ -7,7 +7,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node  dist/server",
+    "start": "node ./dist/server",
     "dev": "nodemon src/server.ts",
     "knex:migrate:make": "knex --knexfile src/database/knexfile.ts -x ts migrate:make",
     "knex:migrate:latest": "knex --knexfile src/database/knexfile.ts migrate:latest",
@@ -35,6 +35,9 @@
     "ts-loader": "^7.0.5",
     "ts-node": "^8.9.1",
     "tslint": "^6.1.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   }
 }

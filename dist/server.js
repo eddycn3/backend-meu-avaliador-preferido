@@ -9,8 +9,4 @@ var server = index_1.default.listen(index_1.default.get("port"), function () {
     console.log("api is running on localhost:%d in %s mode", index_1.default.get("port"), index_1.default.get("env"));
 });
 exports.default = server;
-/*"prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-   // "build": "tsc",
-    "prestart": "npm run build",
-    */
 //# sourceMappingURL=server.js.map
