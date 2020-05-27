@@ -17,7 +17,7 @@ const Avaliador_1 = __importDefault(require("../models/Avaliador"));
 const enums_1 = require("../utils/enums");
 const HttpException_1 = __importDefault(require("../exceptions/HttpException"));
 class AuthController {
-    create(request, response) {
+    create(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let avaliador;
@@ -37,11 +37,7 @@ class AuthController {
                 });
             }
             catch (err) {
-                // errorHandlerMiddleware(
-                //   new HttpException(404, "Erro ao cadastrar usuario.", err.message),
-                //   request,
-                //   response
-                // );
+                next(new HttpException_1.default(404, "Erro na autenticação do usuario", err.message));
             }
         });
     }
@@ -49,19 +45,15 @@ class AuthController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { user_name, password } = request.body;
-                console.log(user_name + " - " + password);
                 const userId = yield new User_1.default().authUsuario(user_name, password);
-                if (userId != null)
-                    return response.json({ id: userId });
-                return;
+                if (userId == null)
+                    return response
+                        .status(404)
+                        .json({ usuario: "usuario não localizado." });
+                return response.json({ id: userId });
             }
             catch (err) {
-                next(new HttpException_1.default(404, "Erro na autenticação do usuario", err.message));
-                // errorHandlerMiddleware(
-                //   new HttpException(404, "Erro ao user", err.message),
-                //   request,
-                //   response
-                // );
+                next(new HttpException_1.default(400, "Erro na autenticação do usuario", err.message));
             }
         });
     }
