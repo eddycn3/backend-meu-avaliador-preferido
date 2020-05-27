@@ -1,12 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = __importDefault(require("./index"));
-const server = index_1.default.listen(index_1.default.get("port"), () => {
+// import app from "./index";
+const app = require("./index");
+const server = app.listen(app.get("port"), () => {
     // tslint:disable-next-line:no-console
-    console.log("api is running on localhost:%d in %s mode", index_1.default.get("port"), index_1.default.get("env"));
+    console.log("api is running on localhost:%d in %s mode", app.get("port"), app.get("env"));
 });
-exports.default = server;
+module.exports = server;
 //# sourceMappingURL=server.js.map
