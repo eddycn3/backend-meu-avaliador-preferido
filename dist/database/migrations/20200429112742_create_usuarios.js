@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.up = (knex) => {
-    return knex.schema.createTable("usuarios", (table) => {
+exports.up = function (knex) {
+    return knex.schema.createTable("usuarios", function (table) {
         table.increments("id").primary();
         table.string("user_name").notNullable();
         table.string("password").notNullable();
@@ -9,7 +9,7 @@ exports.up = (knex) => {
         table.integer("ativo").unsigned();
     });
 };
-exports.down = (knex) => {
+exports.down = function (knex) {
     return knex.schema.dropTable("usuarios");
 };
 //# sourceMappingURL=20200429112742_create_usuarios.js.map

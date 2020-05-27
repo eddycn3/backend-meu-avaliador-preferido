@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import Routes from "./routes";
 import errorMiddleware from "./middlewares/errorHandlerMiddleware";
-import HttpException from "./exceptions/HttpException";
 
 const app = express();
 

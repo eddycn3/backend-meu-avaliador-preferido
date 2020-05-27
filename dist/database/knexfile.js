@@ -1,6 +1,6 @@
 "use strict";
 // Update with your config settings.
-const database_1 = require("./database");
+var database_1 = require("./database");
 module.exports = database_1.database;
 // module.exports = {
 //   development: {

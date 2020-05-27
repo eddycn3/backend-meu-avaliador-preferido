@@ -1,6 +1,4 @@
-// import app from "./index";
-
-const app = require("./index");
+import app from "./index";
 
 const server = app.listen(app.get("port"), () => {
   // tslint:disable-next-line:no-console
@@ -11,4 +9,4 @@ const server = app.listen(app.get("port"), () => {
   );
 });
 
-module.exports = server;
+export default server;

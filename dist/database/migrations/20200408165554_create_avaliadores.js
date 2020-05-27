@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.up = (knex) => {
-    return knex.schema.createTable("avaliadores", (table) => {
+exports.up = function (knex) {
+    return knex.schema.createTable("avaliadores", function (table) {
         table.increments("id").primary();
         table.string("nome", 255).notNullable();
         table.string("empresa", 100).notNullable();
@@ -14,7 +14,7 @@ exports.up = (knex) => {
         table.foreign("user_id").references("id").inTable("usuarios");
     });
 };
-exports.down = (knex) => {
+exports.down = function (knex) {
     return knex.schema.dropTable("avaliadores");
 };
 //# sourceMappingURL=20200408165554_create_avaliadores.js.map

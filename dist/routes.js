@@ -3,20 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const AvaliadorController_1 = __importDefault(require("./controllers/AvaliadorController"));
-const AuthController_1 = __importDefault(require("./controllers/AuthController"));
-class Routes {
-    constructor() {
+var express_1 = __importDefault(require("express"));
+var AvaliadorController_1 = __importDefault(require("./controllers/AvaliadorController"));
+var AuthController_1 = __importDefault(require("./controllers/AuthController"));
+var Routes = /** @class */ (function () {
+    function Routes() {
         this.routes = express_1.default.Router();
         this.registerRoutes();
     }
-    registerRoutes() {
+    Routes.prototype.registerRoutes = function () {
         this.routes.get("/avaliadores/:id", AvaliadorController_1.default.index);
         this.routes.post("/auth/create", AuthController_1.default.create);
         this.routes.post("/auth/authenticate", AuthController_1.default.authenticate);
-    }
-}
+    };
+    return Routes;
+}());
 exports.default = new Routes();
 // routes.post("/register", AuthController.create);
 // routes.get("/avaliadores/:id", AvaliadorController.index);

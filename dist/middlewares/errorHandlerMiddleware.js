@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function errorMiddleware(error, request, response, next) {
-    const { statusCode, message, reason } = error;
+    var statusCode = error.statusCode, message = error.message, reason = error.reason;
     response.status(statusCode).json({
         status: "error",
-        statusCode,
-        message,
-        reason,
+        statusCode: statusCode,
+        message: message,
+        reason: reason,
     });
 }
 exports.default = errorMiddleware;
