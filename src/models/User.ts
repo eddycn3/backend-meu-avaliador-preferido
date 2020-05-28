@@ -44,6 +44,10 @@ export default class Usuario implements IModelCRUD<Usuario> {
       })
       .first<Usuario>();
 
+    if (!userDB) {
+      return 0;
+    }
+
     const match = await bcrypt.compare(pass, userDB.password);
 
     if (match) {
