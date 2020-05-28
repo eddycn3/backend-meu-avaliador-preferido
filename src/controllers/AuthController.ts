@@ -45,7 +45,7 @@ class AuthController {
   ): Promise<Response> {
     try {
       const { user_name, password } = request.body;
-
+      console.log(`authenticate() = ${request.body}`);
       const userId = await new Usuario().authUsuario(user_name, password);
 
       if (userId == 0) {
