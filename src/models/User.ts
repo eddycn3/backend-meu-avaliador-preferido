@@ -44,7 +44,7 @@ export default class Usuario implements IModelCRUD<Usuario> {
       })
       .first<Usuario>();
 
-    if (userDB == null) {
+    if (userDB === undefined) {
       return 0;
     }
 
