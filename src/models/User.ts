@@ -44,15 +44,12 @@ export default class Usuario implements IModelCRUD<Usuario> {
       })
       .first<Usuario>();
 
-    if (userDB === undefined) {
-      return 0;
-    }
-
-    const match = await bcrypt.compare(pass, userDB.password);
+    const match = await bcrypt.compare(pass, userDB?.password);
 
     if (match) {
       return +userDB.id;
     }
+    return 0;
   }
 
   getByID(id: number): Promise<Usuario> {
