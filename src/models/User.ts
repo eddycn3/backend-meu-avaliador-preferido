@@ -44,7 +44,7 @@ export default class Usuario implements IModelCRUD<Usuario> {
       })
       .first<Usuario>();
 
-    console.log("authUsuario().userDB = " + userDB);
+    console.log(`authUsuario().userDB = ${userDB}`);
     if (userDB === undefined) {
       return 0;
     }
