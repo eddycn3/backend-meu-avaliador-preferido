@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "knex:migrate:make": "knex --knexfile src/database/knexfile.ts -x ts migrate:make",

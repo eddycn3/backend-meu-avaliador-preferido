@@ -14,7 +14,7 @@ function authMiddleware(
 
   const parts = auth.split(" ");
 
-  if (parts.length != 2)
+  if (parts.length !== 2)
     return response.status(401).send({ error: "Token error" });
 
   const [schema, token] = parts;

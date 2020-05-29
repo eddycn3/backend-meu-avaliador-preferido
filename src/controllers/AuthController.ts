@@ -57,7 +57,7 @@ export class AuthController {
 
       const userId = await new Usuario().authUsuario(user_name, password);
 
-      if (userId == 0) {
+      if (userId === 0) {
         return response
           .status(404)
           .json(new MsgRetornoValidacao(0, "usuario não localizado."));
