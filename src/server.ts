@@ -1,8 +1,8 @@
 import express, { Router } from "express";
 import cors from "cors";
 
-import { AvaliadorRoutes } from "../src/routes/AvaliadorRoutes";
-import { AuthRoutes } from "../src/routes/AuthRoutes";
+import { AvaliadorRoutes } from "./routes/AvaliadorRoutes";
+import { AuthRoutes } from "./routes/AuthRoutes";
 
 import errorMiddleware from "./middlewares/errorHandlerMiddleware";
 
