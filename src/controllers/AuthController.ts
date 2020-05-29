@@ -4,8 +4,15 @@ import Avaliador from "../models/Avaliador";
 import { UserType } from "../utils/enums";
 import HttpException from "../exceptions/HttpException";
 import MsgRetornoValidacao from "../models/common/MsgRetorno";
+import * as jwt from "jsonwebtoken";
+import * as authConfig from "../configs/configConsts";
+import authMiddleware from "../middlewares/authMiddleWare";
 
-class AuthController {
+export class AuthController {
+  async authorize(request: Request, response: Response, next: NextFunction) {
+    authMiddleware(request, response, next);
+  }
+
   async create(
     request: Request,
     response: Response,
@@ -44,7 +51,9 @@ class AuthController {
     next: NextFunction
   ): Promise<Response> {
     try {
-      const { user_name, password } = request.body;
+      let userObj: object;
+
+      const { user_name, password, user_type } = request.body;
 
       const userId = await new Usuario().authUsuario(user_name, password);
 
@@ -54,7 +63,17 @@ class AuthController {
           .json(new MsgRetornoValidacao(0, "usuario não localizado."));
       }
 
-      return response.json({ id: userId });
+      if (user_type === UserType.Avalidor) {
+        userObj = await new Avaliador().getByUserID(userId);
+      }
+
+      return response.json({
+        id: userId,
+        user_info: userObj,
+        token: jwt.sign({ userId }, authConfig.default, {
+          expiresIn: 86400,
+        }),
+      });
     } catch (err) {
       next(
         new HttpException(400, "Erro na autenticação do usuario", err.message)
@@ -62,5 +81,3 @@ class AuthController {
     }
   }
 }
-
-export default new AuthController();

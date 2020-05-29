@@ -1,26 +1,32 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import Avaliador from "../models/Avaliador";
+import HttpException from "../exceptions/HttpException";
 
-class AvaliadorController {
-  public async index(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
-    const avaliador = await new Avaliador().getByID(+id);
+export class AvaliadorController {
+  async getAvaliador(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): Promise<Response> {
+    try {
+      const { id } = request.params;
+      console.log(id);
+      const avaliador = await new Avaliador().getByID(+id);
 
-    if (avaliador == null) {
-      return response.status(404).json({ error: "registro não encontrado!" });
+      if (avaliador == null) {
+        return response.status(404).json({ error: "registro não encontrado!" });
+      }
+
+      return response.json(avaliador);
+    } catch (ex) {
+      next(
+        new HttpException(
+          400,
+          "Erro ao recuperar infos do avaliador",
+          ex.message
+        )
+      );
     }
-
-    return response.json(avaliador);
-  }
-
-  public async create(request: Request, response: Response): Promise<Response> {
-    const avaliador = new Avaliador().create(request.body);
-
-    if (avaliador) {
-      return response.status(409).json({ error: "registro já existente!" });
-    }
-
-    return response.json(avaliador);
   }
 
   // async update(request: Request, response: Response): Promise<Response> {
@@ -37,5 +43,3 @@ class AvaliadorController {
   //   return response.send();
   // }
 }
-
-export default new AvaliadorController();

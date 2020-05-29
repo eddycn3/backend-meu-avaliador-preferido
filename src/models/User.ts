@@ -32,8 +32,6 @@ export default class Usuario implements IModelCRUD<Usuario> {
       ativo: 1,
     });
 
-    console.log("Usuario.create: " + usuario.id);
-
     return usuario;
   }
 
@@ -43,6 +41,8 @@ export default class Usuario implements IModelCRUD<Usuario> {
         user_name: user,
       })
       .first<Usuario>();
+
+    if (!userDB) return 0;
 
     const match = await bcrypt.compare(pass, userDB?.password);
 

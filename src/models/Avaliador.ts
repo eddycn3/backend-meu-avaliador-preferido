@@ -29,11 +29,16 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
     return avaliador;
   }
 
-  update(entity: Avaliador): Promise<Avaliador> {
-    throw new Error("Method not implemented.");
-  }
-  delete(id: number): Promise<Avaliador> {
-    throw new Error("Method not implemented.");
+  async getByUserID(id: number): Promise<Avaliador> {
+    const avaliador = await connection("avaliadores")
+      .where("user_id", id)
+      .first();
+
+    if (!avaliador) {
+      return null;
+    }
+
+    return avaliador;
   }
 
   private async verificaAvaliador(avaliador: Avaliador): Promise<Avaliador> {
