@@ -1,1 +1,0 @@
-web: npm build-app && npm start
