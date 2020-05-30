@@ -5,10 +5,12 @@ import { UserType } from "../utils/enums";
 import HttpException from "../exceptions/HttpException";
 import MsgRetornoValidacao from "../models/common/MsgRetorno";
 import * as jwt from "jsonwebtoken";
-import * as authConfig from "../configs/configConsts";
 import authMiddleware from "../middlewares/authMiddleWare";
+import { JWT_SECRET } from "../utils/secrets";
 
 export class AuthController {
+  private readonly token = "ab32eafed410b0ec19ac9866b37b9041";
+
   async authorize(request: Request, response: Response, next: NextFunction) {
     authMiddleware(request, response, next);
   }
@@ -70,7 +72,7 @@ export class AuthController {
       return response.json({
         id: userId,
         user_info: userObj,
-        token: jwt.sign({ userId }, authConfig.default, {
+        token: jwt.sign({ userId }, JWT_SECRET, {
           expiresIn: 86400,
         }),
       });

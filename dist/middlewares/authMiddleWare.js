@@ -8,7 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var jwt = __importStar(require("jsonwebtoken"));
-var authConfig = __importStar(require("../configs/configConsts"));
+var secrets_1 = require("../utils/secrets");
 function authMiddleware(request, response, next) {
     var auth = request.headers.authorization;
     if (!auth)
@@ -19,7 +19,7 @@ function authMiddleware(request, response, next) {
     var schema = parts[0], token = parts[1];
     if (!/^Bearer$/i.test(schema))
         return response.status(401).send({ error: "Token malformed" });
-    jwt.verify(token, authConfig.default, function (err, decoded) {
+    jwt.verify(token, secrets_1.JWT_SECRET, function (err, decoded) {
         if (err)
             return response.status(401).send({ error: "Invalid Token" });
         var userId = request.body.userId;

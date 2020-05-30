@@ -52,10 +52,11 @@ var enums_1 = require("../utils/enums");
 var HttpException_1 = __importDefault(require("../exceptions/HttpException"));
 var MsgRetorno_1 = __importDefault(require("../models/common/MsgRetorno"));
 var jwt = __importStar(require("jsonwebtoken"));
-var authConfig = __importStar(require("../configs/configConsts"));
 var authMiddleWare_1 = __importDefault(require("../middlewares/authMiddleWare"));
+var secrets_1 = require("../utils/secrets");
 var AuthController = /** @class */ (function () {
     function AuthController() {
+        this.token = "ab32eafed410b0ec19ac9866b37b9041";
     }
     AuthController.prototype.authorize = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
@@ -126,7 +127,7 @@ var AuthController = /** @class */ (function () {
                     case 3: return [2 /*return*/, response.json({
                             id: userId,
                             user_info: userObj,
-                            token: jwt.sign({ userId: userId }, authConfig.default, {
+                            token: jwt.sign({ userId: userId }, secrets_1.JWT_SECRET, {
                                 expiresIn: 86400,
                             }),
                         })];

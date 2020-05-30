@@ -1,7 +1,7 @@
 import HttpException from "../exceptions/HttpException";
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import * as authConfig from "../configs/configConsts";
+import { JWT_SECRET } from "../utils/secrets";
 
 function authMiddleware(
   request: Request,
@@ -22,7 +22,7 @@ function authMiddleware(
   if (!/^Bearer$/i.test(schema))
     return response.status(401).send({ error: "Token malformed" });
 
-  jwt.verify(token, authConfig.default, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) return response.status(401).send({ error: "Invalid Token" });
     const { userId } = request.body;
 
