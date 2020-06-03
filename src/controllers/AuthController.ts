@@ -9,8 +9,6 @@ import authMiddleware from "../middlewares/authMiddleWare";
 import { JWT_SECRET } from "../utils/secrets";
 
 export class AuthController {
-  private readonly token = "ab32eafed410b0ec19ac9866b37b9041";
-
   async authorize(request: Request, response: Response, next: NextFunction) {
     authMiddleware(request, response, next);
   }
