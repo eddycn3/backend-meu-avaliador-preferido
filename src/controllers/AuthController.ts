@@ -36,10 +36,7 @@ export class AuthController {
         avaliador = await new Avaliador().create(user_info);
       }
 
-      return response.json({
-        user: { user_name: user.user_name },
-        user_info: avaliador,
-      });
+      return response.json({ user_name: user.user_name, user_info: avaliador });
     } catch (err) {
       next(new HttpException(400, "Erro na criação do usuario", err.message));
     }
