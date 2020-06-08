@@ -2,6 +2,7 @@ import connection from "../database/connection";
 import { IModelCRUD } from "./common/IModelCRUD";
 
 export default class Avaliador implements IModelCRUD<Avaliador> {
+  id: number;
   nome: string;
   empresa: string;
   site: string;
@@ -15,7 +16,8 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
     if (v) {
       return v;
     }
-    await connection("avaliadores").insert(avaliador);
+    const [id] = await connection("avaliadores").insert(avaliador);
+    avaliador.id = id;
     return avaliador;
   }
 
@@ -49,6 +51,7 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
         site: avaliador.site,
         email: avaliador.email,
         telefone: avaliador.telefone,
+        user_id: avaliador.user_id,
       })
       .first();
     if (a) return a;

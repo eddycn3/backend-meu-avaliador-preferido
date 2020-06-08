@@ -56,7 +56,6 @@ var authMiddleWare_1 = __importDefault(require("../middlewares/authMiddleWare"))
 var secrets_1 = require("../utils/secrets");
 var AuthController = /** @class */ (function () {
     function AuthController() {
-        this.token = "ab32eafed410b0ec19ac9866b37b9041";
     }
     AuthController.prototype.authorize = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
@@ -68,29 +67,37 @@ var AuthController = /** @class */ (function () {
     };
     AuthController.prototype.create = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var avaliador, _a, user, user_info, usuario, err_1;
+            var avaliador, _a, user_name, password, user_type, user_info, user, usuario, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 4, , 5]);
                         avaliador = void 0;
-                        _a = request.body, user = _a.user, user_info = _a.user_info;
-                        return [4 /*yield*/, new User_1.default().create(user)];
+                        _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type, user_info = _a.user_info;
+                        user = new User_1.default();
+                        user.user_name = user_name;
+                        user.password = password;
+                        return [4 /*yield*/, user.create(user)];
                     case 1:
                         usuario = _b.sent();
+                        if (usuario.id === undefined) {
+                            return [2 /*return*/, response
+                                    .status(400)
+                                    .json(new MsgRetorno_1.default(0, "Erro na criação do usuario"))];
+                        }
                         user_info.user_id = +usuario.id;
                         if (usuario.ativo === 0) {
                             return [2 /*return*/, response
                                     .status(409)
                                     .json(new MsgRetorno_1.default(0, "usuario inativo"))];
                         }
-                        if (!(user.user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
+                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
                         return [4 /*yield*/, new Avaliador_1.default().create(user_info)];
                     case 2:
                         avaliador = _b.sent();
                         _b.label = 3;
                     case 3: return [2 /*return*/, response.json({
-                            user: { user_name: user.user_name },
+                            user_name: usuario.user_name,
                             user_info: avaliador,
                         })];
                     case 4:

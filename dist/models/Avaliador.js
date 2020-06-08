@@ -45,7 +45,7 @@ var Avaliador = /** @class */ (function () {
     }
     Avaliador.prototype.create = function (avaliador) {
         return __awaiter(this, void 0, void 0, function () {
-            var v;
+            var v, id;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.verificaAvaliador(avaliador)];
@@ -56,7 +56,8 @@ var Avaliador = /** @class */ (function () {
                         }
                         return [4 /*yield*/, connection_1.default("avaliadores").insert(avaliador)];
                     case 2:
-                        _a.sent();
+                        id = (_a.sent())[0];
+                        avaliador.id = id;
                         return [2 /*return*/, avaliador];
                 }
             });
@@ -108,6 +109,7 @@ var Avaliador = /** @class */ (function () {
                             site: avaliador.site,
                             email: avaliador.email,
                             telefone: avaliador.telefone,
+                            user_id: avaliador.user_id,
                         })
                             .first()];
                     case 1:

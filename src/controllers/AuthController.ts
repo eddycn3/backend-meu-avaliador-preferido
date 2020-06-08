@@ -20,10 +20,18 @@ export class AuthController {
   ): Promise<Response> {
     try {
       let avaliador: Avaliador;
+      const { user_name, password, user_type, user_info } = request.body;
+      const user = new Usuario();
+      user.user_name = user_name;
+      user.password = password;
+      const usuario = await user.create(user);
 
-      const { user, user_info } = request.body;
+      if (usuario.id === undefined) {
+        return response
+          .status(400)
+          .json(new MsgRetornoValidacao(0, "Erro na criação do usuario"));
+      }
 
-      const usuario = await new Usuario().create(user);
       user_info.user_id = +usuario.id;
 
       if (usuario.ativo === 0) {
@@ -32,11 +40,14 @@ export class AuthController {
           .json(new MsgRetornoValidacao(0, "usuario inativo"));
       }
 
-      if (user.user_type === UserType.Avalidor) {
+      if (user_type === UserType.Avalidor) {
         avaliador = await new Avaliador().create(user_info);
       }
 
-      return response.json({ user_name: user.user_name, user_info: avaliador });
+      return response.json({
+        user_name: usuario.user_name,
+        user_info: avaliador,
+      });
     } catch (err) {
       next(new HttpException(400, "Erro na criação do usuario", err.message));
     }

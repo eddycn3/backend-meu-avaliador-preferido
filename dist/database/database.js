@@ -10,4 +10,5 @@ exports.database = {
     },
     useNullAsDefault: true,
 };
+// REMINDER use => filename: "appDB.sqlite3", to create the file
 //# sourceMappingURL=database.js.map
