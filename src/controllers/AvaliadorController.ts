@@ -10,7 +10,6 @@ export class AvaliadorController {
   ): Promise<Response> {
     try {
       const { id } = request.params;
-      console.log(id);
       const avaliador = await new Avaliador().getByID(+id);
 
       if (avaliador == null) {

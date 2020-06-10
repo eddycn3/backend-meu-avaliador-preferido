@@ -8,7 +8,6 @@ import errorMiddleware from "./middlewares/errorHandlerMiddleware";
 
 class Server {
   public app: express.Application;
-
   constructor() {
     this.app = express();
     this.config();

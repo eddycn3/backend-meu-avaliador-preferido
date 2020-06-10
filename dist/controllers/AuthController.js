@@ -67,7 +67,7 @@ var AuthController = /** @class */ (function () {
     };
     AuthController.prototype.create = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var avaliador, _a, user_name, password, user_type, user_info, user, usuario, err_1;
+            var avaliador, _a, user_name, password, user_type, user_info, user, usuario, userID, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -96,10 +96,15 @@ var AuthController = /** @class */ (function () {
                     case 2:
                         avaliador = _b.sent();
                         _b.label = 3;
-                    case 3: return [2 /*return*/, response.json({
-                            user_name: usuario.user_name,
-                            user_info: avaliador,
-                        })];
+                    case 3:
+                        userID = usuario.id;
+                        return [2 /*return*/, response.json({
+                                user_name: usuario.user_name,
+                                user_info: avaliador,
+                                token: jwt.sign({ userID: userID }, secrets_1.JWT_SECRET, {
+                                    expiresIn: 86400,
+                                }),
+                            })];
                     case 4:
                         err_1 = _b.sent();
                         next(new HttpException_1.default(400, "Erro na criação do usuario", err_1.message));
@@ -121,6 +126,7 @@ var AuthController = /** @class */ (function () {
                         return [4 /*yield*/, new User_1.default().authUsuario(user_name, password)];
                     case 1:
                         userId = _b.sent();
+                        console.log(userId);
                         if (userId === 0) {
                             return [2 /*return*/, response
                                     .status(404)

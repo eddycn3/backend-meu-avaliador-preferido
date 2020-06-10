@@ -24,9 +24,6 @@ function authMiddleware(
 
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) return response.status(401).send({ error: "Invalid Token" });
-    const { userId } = request.body;
-
-    console.log(decoded);
     return next();
   });
 }

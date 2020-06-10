@@ -52,7 +52,6 @@ var AvaliadorController = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         id = request.params.id;
-                        console.log(id);
                         return [4 /*yield*/, new Avaliador_1.default().getByID(+id)];
                     case 1:
                         avaliador = _a.sent();

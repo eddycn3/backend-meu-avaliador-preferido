@@ -12,5 +12,10 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*", "src/database", "database/knexfile.ts"]
+  "include": [
+    "src/**/*",
+    "src/database",
+    "database/knexfile.ts",
+    "configsDEV.ts"
+  ]
 }

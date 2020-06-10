@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "NODE_ENV=development nodemon src/server.ts",
     "build-app": "npm run build-ts && npm run tslint",
     "build-ts": "tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
@@ -27,6 +27,7 @@
     "@types/node": "^13.13.9",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.13",

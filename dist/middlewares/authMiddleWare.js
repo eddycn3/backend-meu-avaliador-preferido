@@ -22,8 +22,6 @@ function authMiddleware(request, response, next) {
     jwt.verify(token, secrets_1.JWT_SECRET, function (err, decoded) {
         if (err)
             return response.status(401).send({ error: "Invalid Token" });
-        var userId = request.body.userId;
-        console.log(decoded);
         return next();
     });
 }
