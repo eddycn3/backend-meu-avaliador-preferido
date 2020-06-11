@@ -11,4 +11,4 @@ export const database = {
   useNullAsDefault: true,
 } as knex.Config;
 
-// REMINDER use => filename: "appDB.sqlite3", to create the file
+// REMINDER use => filename: "appDB.sqlite3", to recreate the file

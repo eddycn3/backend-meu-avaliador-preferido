@@ -8,6 +8,8 @@ exports.up = function (knex) {
         table.string("site", 100);
         table.string("email", 100).notNullable();
         table.string("telefone", 14).notNullable();
+        table.string("cpf", 11).unique().notNullable();
+        table.string("id_confef", 15).unique().notNullable();
         table.integer("image_id").unsigned();
         table.foreign("image_id").references("id").inTable("application_images");
         table.integer("user_id").unsigned();

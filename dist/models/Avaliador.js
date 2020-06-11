@@ -104,12 +104,9 @@ var Avaliador = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, connection_1.default("avaliadores")
                             .where({
-                            nome: avaliador.nome,
-                            empresa: avaliador.empresa,
-                            site: avaliador.site,
-                            email: avaliador.email,
-                            telefone: avaliador.telefone,
                             user_id: avaliador.user_id,
+                            cpf: avaliador.cpf,
+                            id_confef: avaliador.id_confef,
                         })
                             .first()];
                     case 1:
