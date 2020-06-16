@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Avaliador from "../models/Avaliador";
-import HttpException from "../exceptions/HttpException";
+import { HttpExceptionError } from "../middlewares/errorHandlerMiddleware";
 
 export class AvaliadorController {
   async getAvaliador(
@@ -13,18 +13,16 @@ export class AvaliadorController {
       const avaliador = await new Avaliador().getByID(+id);
 
       if (avaliador == null) {
-        return response.status(404).json({ error: "registro não encontrado!" });
+        throw new HttpExceptionError(
+          404,
+          "registro não encontrado",
+          "avaliador returned null"
+        );
       }
 
       return response.json(avaliador);
     } catch (ex) {
-      next(
-        new HttpException(
-          400,
-          "Erro ao recuperar infos do avaliador",
-          ex.message
-        )
-      );
+      next(ex);
     }
   }
 

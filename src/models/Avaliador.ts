@@ -14,12 +14,13 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
   id_confef: string;
 
   async create(avaliador: Avaliador): Promise<Avaliador> {
-    const v = await this.verificaAvaliador(avaliador);
-    if (v) {
-      return v;
+    try {
+      const [id] = await connection("avaliadores").insert(avaliador);
+      avaliador.id = id;
+    } catch (error) {
+      console.log("Avaliador.create", error);
+      avaliador = undefined;
     }
-    const [id] = await connection("avaliadores").insert(avaliador);
-    avaliador.id = id;
     return avaliador;
   }
 
@@ -45,7 +46,7 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
     return avaliador;
   }
 
-  private async verificaAvaliador(avaliador: Avaliador): Promise<Avaliador> {
+  public async verificaAvaliador(avaliador: Avaliador): Promise<Avaliador> {
     const a = await connection("avaliadores")
       .where({
         user_id: avaliador.user_id,

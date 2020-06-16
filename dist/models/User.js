@@ -53,7 +53,7 @@ var Usuario = /** @class */ (function () {
     }
     Usuario.prototype.create = function (usuario) {
         return __awaiter(this, void 0, void 0, function () {
-            var userDB, user_name, salt, hash, _a;
+            var userDB, user_name, salt, hash, _a, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, connection_1.default("usuarios")
@@ -69,6 +69,9 @@ var Usuario = /** @class */ (function () {
                         user_name = usuario.user_name;
                         salt = bcrypt.genSaltSync(10);
                         hash = bcrypt.hashSync(usuario.password, salt);
+                        _b.label = 2;
+                    case 2:
+                        _b.trys.push([2, 4, , 5]);
                         _a = usuario;
                         return [4 /*yield*/, connection_1.default("usuarios").insert({
                                 user_name: user_name,
@@ -76,9 +79,15 @@ var Usuario = /** @class */ (function () {
                                 password_salt: salt,
                                 ativo: 1,
                             })];
-                    case 2:
+                    case 3:
                         _a.id = _b.sent();
-                        return [2 /*return*/, usuario];
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _b.sent();
+                        console.log("Usuario.create :" + err_1);
+                        usuario = undefined;
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/, usuario];
                 }
             });
         });

@@ -1,4 +1,3 @@
-import HttpException from "../exceptions/HttpException";
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../utils/secrets";

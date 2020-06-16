@@ -25,13 +25,17 @@ export default class Usuario implements IModelCRUD<Usuario> {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(usuario.password, salt);
 
-    usuario.id = await connection("usuarios").insert({
-      user_name,
-      password: hash,
-      password_salt: salt,
-      ativo: 1,
-    });
-
+    try {
+      usuario.id = await connection("usuarios").insert({
+        user_name,
+        password: hash,
+        password_salt: salt,
+        ativo: 1,
+      });
+    } catch (err) {
+      console.log("Usuario.create :" + err);
+      usuario = undefined;
+    }
     return usuario;
   }
 

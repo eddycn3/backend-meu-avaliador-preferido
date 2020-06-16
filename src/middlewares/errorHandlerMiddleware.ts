@@ -1,20 +1,33 @@
 import { Request, Response, NextFunction } from "express";
-import HttpException from "../exceptions/HttpException";
 
-function errorMiddleware(
-  error: HttpException,
+export class HttpExceptionError extends Error {
+  statusCode: number;
+  message: string;
+  reason?: string;
+
+  constructor(statusCode: number, message: string, reason?: string) {
+    super();
+    this.statusCode = statusCode;
+    this.message = message;
+    this.reason = reason;
+  }
+
+  public toString = (): string => {
+    return `HttpExceptionError (statusCode : ${this.statusCode}, message : ${this.message}, reason : ${this.reason})`;
+  };
+}
+
+export function handleError(
+  error: HttpExceptionError,
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  const { statusCode, message, reason } = error;
-
-  response.status(statusCode).json({
-    status: "error",
-    statusCode,
-    message,
-    reason,
+  console.log(error.toString());
+  const status = error.statusCode || 500;
+  const msg = error.message || "Algo ocorreu de errado";
+  return response.status(status).json({
+    status,
+    msg,
   });
 }
-
-export default errorMiddleware;

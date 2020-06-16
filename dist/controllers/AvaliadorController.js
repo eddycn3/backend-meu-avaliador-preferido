@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Avaliador_1 = __importDefault(require("../models/Avaliador"));
-var HttpException_1 = __importDefault(require("../exceptions/HttpException"));
+var errorHandlerMiddleware_1 = require("../middlewares/errorHandlerMiddleware");
 var AvaliadorController = /** @class */ (function () {
     function AvaliadorController() {
     }
@@ -56,12 +56,12 @@ var AvaliadorController = /** @class */ (function () {
                     case 1:
                         avaliador = _a.sent();
                         if (avaliador == null) {
-                            return [2 /*return*/, response.status(404).json({ error: "registro não encontrado!" })];
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "registro não encontrado", "avaliador returned null");
                         }
                         return [2 /*return*/, response.json(avaliador)];
                     case 2:
                         ex_1 = _a.sent();
-                        next(new HttpException_1.default(400, "Erro ao recuperar infos do avaliador", ex_1.message));
+                        next(ex_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

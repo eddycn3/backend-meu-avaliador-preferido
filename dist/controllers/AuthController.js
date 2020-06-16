@@ -49,54 +49,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var User_1 = __importDefault(require("../models/User"));
 var Avaliador_1 = __importDefault(require("../models/Avaliador"));
 var enums_1 = require("../utils/enums");
-var HttpException_1 = __importDefault(require("../exceptions/HttpException"));
-var MsgRetorno_1 = __importDefault(require("../models/common/MsgRetorno"));
 var jwt = __importStar(require("jsonwebtoken"));
 var authMiddleWare_1 = __importDefault(require("../middlewares/authMiddleWare"));
+var errorHandlerMiddleware_1 = require("../middlewares/errorHandlerMiddleware");
 var secrets_1 = require("../utils/secrets");
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }
-    AuthController.prototype.authorize = function (request, response, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                authMiddleWare_1.default(request, response, next);
-                return [2 /*return*/];
-            });
-        });
-    };
     AuthController.prototype.create = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var avaliador, _a, user_name, password, user_type, user_info, user, usuario, userID, err_1;
+            var avaliador, user, _a, user_name, password, user_type, user_info, usuario, avldorInstance, v, userID, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 4, , 5]);
-                        avaliador = void 0;
-                        _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type, user_info = _a.user_info;
                         user = new User_1.default();
+                        _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type, user_info = _a.user_info;
                         user.user_name = user_name;
                         user.password = password;
-                        return [4 /*yield*/, user.create(user)];
+                        _b.label = 1;
                     case 1:
+                        _b.trys.push([1, 6, , 7]);
+                        return [4 /*yield*/, user.create(user)];
+                    case 2:
                         usuario = _b.sent();
-                        if (usuario.id === undefined) {
-                            return [2 /*return*/, response
-                                    .status(400)
-                                    .json(new MsgRetorno_1.default(0, "Erro na criação do usuario"))];
+                        if (usuario === undefined) {
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "erro na criacao do usuario");
                         }
                         user_info.user_id = +usuario.id;
-                        if (usuario.ativo === 0) {
-                            return [2 /*return*/, response
-                                    .status(409)
-                                    .json(new MsgRetorno_1.default(0, "usuario inativo"))];
-                        }
-                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, new Avaliador_1.default().create(user_info)];
-                    case 2:
-                        avaliador = _b.sent();
-                        _b.label = 3;
+                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 5];
+                        avldorInstance = new Avaliador_1.default();
+                        return [4 /*yield*/, avldorInstance.verificaAvaliador(user_info)];
                     case 3:
+                        v = _b.sent();
+                        if (v) {
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(403, "cpf e registro confef já cadastrados");
+                        }
+                        return [4 /*yield*/, avldorInstance.create(user_info)];
+                    case 4:
+                        avaliador = _b.sent();
+                        if (avaliador === undefined) {
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "erro na criacao do usuario");
+                        }
+                        _b.label = 5;
+                    case 5:
                         userID = usuario.id;
                         return [2 /*return*/, response.json({
                                 user_name: usuario.user_name,
@@ -105,18 +100,18 @@ var AuthController = /** @class */ (function () {
                                     expiresIn: 86400,
                                 }),
                             })];
-                    case 4:
-                        err_1 = _b.sent();
-                        next(new HttpException_1.default(400, "Erro na criação do usuario", err_1.message));
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                    case 6:
+                        error_1 = _b.sent();
+                        next(error_1);
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
     };
     AuthController.prototype.authenticate = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var userObj, _a, user_name, password, user_type, userId, err_2;
+            var userObj, _a, user_name, password, user_type, userId, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -128,9 +123,7 @@ var AuthController = /** @class */ (function () {
                         userId = _b.sent();
                         console.log(userId);
                         if (userId === 0) {
-                            return [2 /*return*/, response
-                                    .status(404)
-                                    .json(new MsgRetorno_1.default(0, "usuario não localizado."))];
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "usuario não localizado");
                         }
                         if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
                         return [4 /*yield*/, new Avaliador_1.default().getByUserID(userId)];
@@ -145,11 +138,19 @@ var AuthController = /** @class */ (function () {
                             }),
                         })];
                     case 4:
-                        err_2 = _b.sent();
-                        next(new HttpException_1.default(400, "Erro na autenticação do usuario", err_2.message));
+                        err_1 = _b.sent();
+                        next(err_1);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
                 }
+            });
+        });
+    };
+    AuthController.prototype.authorize = function (request, response, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                authMiddleWare_1.default(request, response, next);
+                return [2 /*return*/];
             });
         });
     };
