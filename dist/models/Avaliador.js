@@ -101,20 +101,39 @@ var Avaliador = /** @class */ (function () {
     };
     Avaliador.prototype.verificaAvaliador = function (avaliador) {
         return __awaiter(this, void 0, void 0, function () {
-            var a;
+            var checkByEmail, checkByCPF, checkByIDCONFEF;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, connection_1.default("avaliadores")
                             .where({
-                            user_id: avaliador.user_id,
-                            cpf: avaliador.cpf,
-                            id_confef: avaliador.id_confef,
+                            email: avaliador.email,
                         })
                             .first()];
                     case 1:
-                        a = _a.sent();
-                        if (a)
-                            return [2 /*return*/, a];
+                        checkByEmail = _a.sent();
+                        return [4 /*yield*/, connection_1.default("avaliadores")
+                                .where({
+                                cpf: avaliador.cpf,
+                            })
+                                .first()];
+                    case 2:
+                        checkByCPF = _a.sent();
+                        return [4 /*yield*/, connection_1.default("avaliadores")
+                                .where({
+                                id_confef: avaliador.id_confef,
+                            })
+                                .first()];
+                    case 3:
+                        checkByIDCONFEF = _a.sent();
+                        if (checkByEmail) {
+                            return [2 /*return*/, "email já cadastrado"];
+                        }
+                        if (checkByCPF) {
+                            return [2 /*return*/, "CPF já cadastrado"];
+                        }
+                        if (checkByIDCONFEF) {
+                            return [2 /*return*/, "idconfef já cadastrado"];
+                        }
                         return [2 /*return*/];
                 }
             });

@@ -1,7 +1,6 @@
 import connection from "../database/connection";
-import { IModelCRUD } from "./common/IModelCRUD";
 
-export default class Avaliador implements IModelCRUD<Avaliador> {
+export default class Avaliador {
   id: number;
   nome: string;
   empresa: string;
@@ -46,14 +45,37 @@ export default class Avaliador implements IModelCRUD<Avaliador> {
     return avaliador;
   }
 
-  public async verificaAvaliador(avaliador: Avaliador): Promise<Avaliador> {
-    const a = await connection("avaliadores")
+  public async verificaAvaliador(
+    avaliador: Avaliador
+  ): Promise<string | undefined> {
+    const checkByEmail = await connection("avaliadores")
       .where({
-        user_id: avaliador.user_id,
+        email: avaliador.email,
+      })
+      .first();
+
+    const checkByCPF = await connection("avaliadores")
+      .where({
         cpf: avaliador.cpf,
+      })
+      .first();
+
+    const checkByIDCONFEF = await connection("avaliadores")
+      .where({
         id_confef: avaliador.id_confef,
       })
       .first();
-    if (a) return a;
+
+    if (checkByEmail) {
+      return "email já cadastrado";
+    }
+
+    if (checkByCPF) {
+      return "CPF já cadastrado";
+    }
+
+    if (checkByIDCONFEF) {
+      return "idconfef já cadastrado";
+    }
   }
 }

@@ -15,34 +15,34 @@ export class AuthController {
     next: NextFunction
   ): Promise<Response> {
     let avaliador: Avaliador;
-    const user = new Usuario();
-
+    let usuario: Usuario;
+    const userInstance = new Usuario();
     const { user_name, password, user_type, user_info } = request.body;
 
-    user.user_name = user_name;
-    user.password = password;
+    userInstance.user_name = user_name;
+    userInstance.password = password;
 
     try {
-      const usuario = await user.create(user);
-
-      if (usuario === undefined) {
-        throw new HttpExceptionError(400, "erro na criacao do usuario");
-      }
-
-      user_info.user_id = +usuario.id;
-
       if (user_type === UserType.Avalidor) {
-        const avldorInstance = new Avaliador();
-        const v = await avldorInstance.verificaAvaliador(user_info);
+        const avaliadorInstance = new Avaliador();
 
-        if (v) {
-          throw new HttpExceptionError(
-            403,
-            "cpf e registro confef já cadastrados"
-          );
+        const checkAvaliador = await avaliadorInstance.verificaAvaliador(
+          user_info
+        );
+
+        if (checkAvaliador) {
+          throw new HttpExceptionError(403, checkAvaliador);
         }
 
-        avaliador = await avldorInstance.create(user_info);
+        usuario = await userInstance.create(userInstance);
+
+        if (usuario === undefined) {
+          throw new HttpExceptionError(400, "erro na criacao do usuario");
+        }
+
+        user_info.user_id = +usuario.id;
+
+        avaliador = await avaliadorInstance.create(user_info);
         if (avaliador === undefined) {
           throw new HttpExceptionError(400, "erro na criacao do usuario");
         }

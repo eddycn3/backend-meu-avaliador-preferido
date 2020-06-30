@@ -58,33 +58,33 @@ var AuthController = /** @class */ (function () {
     }
     AuthController.prototype.create = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var avaliador, user, _a, user_name, password, user_type, user_info, usuario, avldorInstance, v, userID, error_1;
+            var avaliador, usuario, userInstance, _a, user_name, password, user_type, user_info, avaliadorInstance, checkAvaliador, userID, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        user = new User_1.default();
+                        userInstance = new User_1.default();
                         _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type, user_info = _a.user_info;
-                        user.user_name = user_name;
-                        user.password = password;
+                        userInstance.user_name = user_name;
+                        userInstance.password = password;
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 6, , 7]);
-                        return [4 /*yield*/, user.create(user)];
+                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 5];
+                        avaliadorInstance = new Avaliador_1.default();
+                        return [4 /*yield*/, avaliadorInstance.verificaAvaliador(user_info)];
                     case 2:
+                        checkAvaliador = _b.sent();
+                        if (checkAvaliador) {
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(403, checkAvaliador);
+                        }
+                        return [4 /*yield*/, userInstance.create(userInstance)];
+                    case 3:
                         usuario = _b.sent();
                         if (usuario === undefined) {
                             throw new errorHandlerMiddleware_1.HttpExceptionError(400, "erro na criacao do usuario");
                         }
                         user_info.user_id = +usuario.id;
-                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 5];
-                        avldorInstance = new Avaliador_1.default();
-                        return [4 /*yield*/, avldorInstance.verificaAvaliador(user_info)];
-                    case 3:
-                        v = _b.sent();
-                        if (v) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(403, "cpf e registro confef já cadastrados");
-                        }
-                        return [4 /*yield*/, avldorInstance.create(user_info)];
+                        return [4 /*yield*/, avaliadorInstance.create(user_info)];
                     case 4:
                         avaliador = _b.sent();
                         if (avaliador === undefined) {

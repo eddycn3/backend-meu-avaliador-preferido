@@ -1,8 +1,7 @@
 import connection from "../database/connection";
 import * as bcrypt from "bcryptjs";
-import { IModelCRUD } from "./common/IModelCRUD";
 
-export default class Usuario implements IModelCRUD<Usuario> {
+export default class Usuario {
   id: number;
   user_name: string;
   password: string;
