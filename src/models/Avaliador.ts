@@ -67,15 +67,15 @@ export default class Avaliador {
       .first();
 
     if (checkByEmail) {
-      return "email já cadastrado";
+      return "ERROR_EMAIL_EXISTS";
     }
 
     if (checkByCPF) {
-      return "CPF já cadastrado";
+      return "ERROR_CPF_EXISTS";
     }
 
     if (checkByIDCONFEF) {
-      return "idconfef já cadastrado";
+      return "ERROR_IDCONFEF_EXISTS";
     }
   }
 }

@@ -30,6 +30,7 @@ export class AuthController {
           user_info
         );
 
+        /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
         if (checkAvaliador) {
           throw new HttpExceptionError(403, checkAvaliador);
         }
@@ -37,14 +38,14 @@ export class AuthController {
         usuario = await userInstance.create(userInstance);
 
         if (usuario === undefined) {
-          throw new HttpExceptionError(400, "erro na criacao do usuario");
+          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
         }
 
         user_info.user_id = +usuario.id;
 
         avaliador = await avaliadorInstance.create(user_info);
         if (avaliador === undefined) {
-          throw new HttpExceptionError(400, "erro na criacao do usuario");
+          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
         }
       }
 

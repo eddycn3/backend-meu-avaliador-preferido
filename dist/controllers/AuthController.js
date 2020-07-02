@@ -74,6 +74,7 @@ var AuthController = /** @class */ (function () {
                         return [4 /*yield*/, avaliadorInstance.verificaAvaliador(user_info)];
                     case 2:
                         checkAvaliador = _b.sent();
+                        /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
                         if (checkAvaliador) {
                             throw new errorHandlerMiddleware_1.HttpExceptionError(403, checkAvaliador);
                         }
@@ -81,14 +82,14 @@ var AuthController = /** @class */ (function () {
                     case 3:
                         usuario = _b.sent();
                         if (usuario === undefined) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "erro na criacao do usuario");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
                         }
                         user_info.user_id = +usuario.id;
                         return [4 /*yield*/, avaliadorInstance.create(user_info)];
                     case 4:
                         avaliador = _b.sent();
                         if (avaliador === undefined) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "erro na criacao do usuario");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
                         }
                         _b.label = 5;
                     case 5:

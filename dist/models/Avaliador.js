@@ -126,13 +126,13 @@ var Avaliador = /** @class */ (function () {
                     case 3:
                         checkByIDCONFEF = _a.sent();
                         if (checkByEmail) {
-                            return [2 /*return*/, "email já cadastrado"];
+                            return [2 /*return*/, "ERROR_EMAIL_EXISTS"];
                         }
                         if (checkByCPF) {
-                            return [2 /*return*/, "CPF já cadastrado"];
+                            return [2 /*return*/, "ERROR_CPF_EXISTS"];
                         }
                         if (checkByIDCONFEF) {
-                            return [2 /*return*/, "idconfef já cadastrado"];
+                            return [2 /*return*/, "ERROR_IDCONFEF_EXISTS"];
                         }
                         return [2 /*return*/];
                 }
