@@ -13,11 +13,8 @@ export class AvaliadorController {
       const avaliador = await new Avaliador().getByID(+id);
 
       if (avaliador == null) {
-        throw new HttpExceptionError(
-          404,
-          "registro não encontrado",
-          "avaliador returned null"
-        );
+        // HTTP STATUS CODE 404,
+        throw new HttpExceptionError("ERROR_USER_INFO_NOT_FOUND ");
       }
 
       return response.json(avaliador);

@@ -32,20 +32,23 @@ export class AuthController {
 
         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
         if (checkAvaliador) {
-          throw new HttpExceptionError(403, checkAvaliador);
+          // HTTP STATUS CODE 403
+          throw new HttpExceptionError(checkAvaliador);
         }
 
         usuario = await userInstance.create(userInstance);
 
         if (usuario === undefined) {
-          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
+          // HTTP STATUS CODE 400
+          throw new HttpExceptionError("ERROR_USER_CREATION_FAILED");
         }
 
         user_info.user_id = +usuario.id;
 
         avaliador = await avaliadorInstance.create(user_info);
         if (avaliador === undefined) {
-          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
+          // HTTP STATUS CODE 400
+          throw new HttpExceptionError("ERROR_USER_CREATION_FAILED");
         }
       }
 
@@ -75,7 +78,8 @@ export class AuthController {
       const userId = await new Usuario().authUsuario(user_name, password);
       console.log(userId);
       if (userId === 0) {
-        throw new HttpExceptionError(404, "usuario não localizado");
+        // HTTP STATUS CODE 404
+        throw new HttpExceptionError("ERROR_USER_NOT_FOUND");
       }
 
       if (user_type === UserType.Avalidor) {

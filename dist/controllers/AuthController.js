@@ -76,20 +76,23 @@ var AuthController = /** @class */ (function () {
                         checkAvaliador = _b.sent();
                         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
                         if (checkAvaliador) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(403, checkAvaliador);
+                            // HTTP STATUS CODE 403
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(checkAvaliador);
                         }
                         return [4 /*yield*/, userInstance.create(userInstance)];
                     case 3:
                         usuario = _b.sent();
                         if (usuario === undefined) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
+                            // HTTP STATUS CODE 400
+                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_CREATION_FAILED");
                         }
                         user_info.user_id = +usuario.id;
                         return [4 /*yield*/, avaliadorInstance.create(user_info)];
                     case 4:
                         avaliador = _b.sent();
                         if (avaliador === undefined) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
+                            // HTTP STATUS CODE 400
+                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_CREATION_FAILED");
                         }
                         _b.label = 5;
                     case 5:
@@ -124,7 +127,8 @@ var AuthController = /** @class */ (function () {
                         userId = _b.sent();
                         console.log(userId);
                         if (userId === 0) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "usuario não localizado");
+                            // HTTP STATUS CODE 404
+                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_NOT_FOUND");
                         }
                         if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
                         return [4 /*yield*/, new Avaliador_1.default().getByUserID(userId)];

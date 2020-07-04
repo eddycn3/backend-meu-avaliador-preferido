@@ -56,7 +56,8 @@ var AvaliadorController = /** @class */ (function () {
                     case 1:
                         avaliador = _a.sent();
                         if (avaliador == null) {
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "registro não encontrado", "avaliador returned null");
+                            // HTTP STATUS CODE 404,
+                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_INFO_NOT_FOUND ");
                         }
                         return [2 /*return*/, response.json(avaliador)];
                     case 2:

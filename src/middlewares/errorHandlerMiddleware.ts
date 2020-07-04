@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 
 export class HttpExceptionError extends Error {
-  statusCode: number;
+  statusCode?: number;
   message: string;
   reason?: string;
 
-  constructor(statusCode: number, message: string, reason?: string) {
+  constructor(message: string, statusCode?: number, reason?: string) {
     super();
     this.statusCode = statusCode;
     this.message = message;

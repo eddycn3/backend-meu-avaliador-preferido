@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var HttpExceptionError = /** @class */ (function (_super) {
     __extends(HttpExceptionError, _super);
-    function HttpExceptionError(statusCode, message, reason) {
+    function HttpExceptionError(message, statusCode, reason) {
         var _this = _super.call(this) || this;
         _this.toString = function () {
             return "HttpExceptionError (statusCode : " + _this.statusCode + ", message : " + _this.message + ", reason : " + _this.reason + ")";
