@@ -2,11 +2,21 @@ import connection from "../database/connection";
 import * as bcrypt from "bcryptjs";
 
 export default class Usuario {
+  private static instance: Usuario;
   id: number;
   user_name: string;
   password: string;
   password_salt: string;
   ativo: number;
+
+  private constructor() {}
+
+  static getInstance(): Usuario {
+    if (!Usuario.instance) {
+      Usuario.instance = new Usuario();
+    }
+    return Usuario.instance;
+  }
 
   async create(usuario: Usuario): Promise<Usuario> {
     const userDB = await connection("usuarios")

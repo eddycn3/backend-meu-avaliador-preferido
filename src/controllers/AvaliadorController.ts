@@ -10,11 +10,11 @@ export class AvaliadorController {
   ): Promise<Response> {
     try {
       const { id } = request.params;
-      const avaliador = await new Avaliador().getByID(+id);
+      const avaliador = await Avaliador.getInstance().getByID(+id);
 
       if (avaliador == null) {
         // HTTP STATUS CODE 404,
-        throw new HttpExceptionError("ERROR_USER_INFO_NOT_FOUND ");
+        throw new HttpExceptionError(404, "ERROR_USER_INFO_NOT_FOUND ");
       }
 
       return response.json(avaliador);

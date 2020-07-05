@@ -52,12 +52,12 @@ var AvaliadorController = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         id = request.params.id;
-                        return [4 /*yield*/, new Avaliador_1.default().getByID(+id)];
+                        return [4 /*yield*/, Avaliador_1.default.getInstance().getByID(+id)];
                     case 1:
                         avaliador = _a.sent();
                         if (avaliador == null) {
                             // HTTP STATUS CODE 404,
-                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_INFO_NOT_FOUND ");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "ERROR_USER_INFO_NOT_FOUND ");
                         }
                         return [2 /*return*/, response.json(avaliador)];
                     case 2:

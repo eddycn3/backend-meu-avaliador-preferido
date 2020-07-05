@@ -1,6 +1,7 @@
 import connection from "../database/connection";
 
 export default class Avaliador {
+  private static instance: Avaliador;
   id: number;
   nome: string;
   empresa: string;
@@ -11,6 +12,15 @@ export default class Avaliador {
   user_id: number;
   cpf: string;
   id_confef: string;
+
+  private constructor() {}
+
+  static getInstance(): Avaliador {
+    if (!Avaliador.instance) {
+      Avaliador.instance = new Avaliador();
+    }
+    return Avaliador.instance;
+  }
 
   async create(avaliador: Avaliador): Promise<Avaliador> {
     try {

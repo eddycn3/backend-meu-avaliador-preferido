@@ -16,7 +16,7 @@ export class AuthController {
   ): Promise<Response> {
     let avaliador: Avaliador;
     let usuario: Usuario;
-    const userInstance = new Usuario();
+    const userInstance = Usuario.getInstance();
     const { user_name, password, user_type, user_info } = request.body;
 
     userInstance.user_name = user_name;
@@ -24,7 +24,7 @@ export class AuthController {
 
     try {
       if (user_type === UserType.Avalidor) {
-        const avaliadorInstance = new Avaliador();
+        const avaliadorInstance = Avaliador.getInstance();
 
         const checkAvaliador = await avaliadorInstance.verificaAvaliador(
           user_info
@@ -33,14 +33,14 @@ export class AuthController {
         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
         if (checkAvaliador) {
           // HTTP STATUS CODE 403
-          throw new HttpExceptionError(checkAvaliador);
+          throw new HttpExceptionError(400, checkAvaliador);
         }
 
         usuario = await userInstance.create(userInstance);
 
         if (usuario === undefined) {
           // HTTP STATUS CODE 400
-          throw new HttpExceptionError("ERROR_USER_CREATION_FAILED");
+          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
         }
 
         user_info.user_id = +usuario.id;
@@ -48,7 +48,7 @@ export class AuthController {
         avaliador = await avaliadorInstance.create(user_info);
         if (avaliador === undefined) {
           // HTTP STATUS CODE 400
-          throw new HttpExceptionError("ERROR_USER_CREATION_FAILED");
+          throw new HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
         }
       }
 
@@ -72,18 +72,20 @@ export class AuthController {
   ): Promise<Response> {
     try {
       let userObj: object;
-
       const { user_name, password, user_type } = request.body;
 
-      const userId = await new Usuario().authUsuario(user_name, password);
+      const userId = await Usuario.getInstance().authUsuario(
+        user_name,
+        password
+      );
       console.log(userId);
       if (userId === 0) {
         // HTTP STATUS CODE 404
-        throw new HttpExceptionError("ERROR_USER_NOT_FOUND");
+        throw new HttpExceptionError(404, "ERROR_USER_NOT_FOUND");
       }
 
       if (user_type === UserType.Avalidor) {
-        userObj = await new Avaliador().getByUserID(userId);
+        userObj = await Avaliador.getInstance().getByUserID(userId);
       }
       return response.json({
         id: userId,

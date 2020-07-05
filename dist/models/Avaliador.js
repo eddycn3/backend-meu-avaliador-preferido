@@ -43,6 +43,12 @@ var connection_1 = __importDefault(require("../database/connection"));
 var Avaliador = /** @class */ (function () {
     function Avaliador() {
     }
+    Avaliador.getInstance = function () {
+        if (!Avaliador.instance) {
+            Avaliador.instance = new Avaliador();
+        }
+        return Avaliador.instance;
+    };
     Avaliador.prototype.create = function (avaliador) {
         return __awaiter(this, void 0, void 0, function () {
             var id, error_1;

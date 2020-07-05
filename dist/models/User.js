@@ -51,6 +51,12 @@ var bcrypt = __importStar(require("bcryptjs"));
 var Usuario = /** @class */ (function () {
     function Usuario() {
     }
+    Usuario.getInstance = function () {
+        if (!Usuario.instance) {
+            Usuario.instance = new Usuario();
+        }
+        return Usuario.instance;
+    };
     Usuario.prototype.create = function (usuario) {
         return __awaiter(this, void 0, void 0, function () {
             var userDB, user_name, salt, hash, _a, err_1;

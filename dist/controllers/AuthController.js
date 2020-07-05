@@ -62,7 +62,7 @@ var AuthController = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        userInstance = new User_1.default();
+                        userInstance = User_1.default.getInstance();
                         _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type, user_info = _a.user_info;
                         userInstance.user_name = user_name;
                         userInstance.password = password;
@@ -70,21 +70,21 @@ var AuthController = /** @class */ (function () {
                     case 1:
                         _b.trys.push([1, 6, , 7]);
                         if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 5];
-                        avaliadorInstance = new Avaliador_1.default();
+                        avaliadorInstance = Avaliador_1.default.getInstance();
                         return [4 /*yield*/, avaliadorInstance.verificaAvaliador(user_info)];
                     case 2:
                         checkAvaliador = _b.sent();
                         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
                         if (checkAvaliador) {
                             // HTTP STATUS CODE 403
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(checkAvaliador);
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, checkAvaliador);
                         }
                         return [4 /*yield*/, userInstance.create(userInstance)];
                     case 3:
                         usuario = _b.sent();
                         if (usuario === undefined) {
                             // HTTP STATUS CODE 400
-                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_CREATION_FAILED");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
                         }
                         user_info.user_id = +usuario.id;
                         return [4 /*yield*/, avaliadorInstance.create(user_info)];
@@ -92,7 +92,7 @@ var AuthController = /** @class */ (function () {
                         avaliador = _b.sent();
                         if (avaliador === undefined) {
                             // HTTP STATUS CODE 400
-                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_CREATION_FAILED");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, "ERROR_USER_CREATION_FAILED");
                         }
                         _b.label = 5;
                     case 5:
@@ -122,16 +122,16 @@ var AuthController = /** @class */ (function () {
                         _b.trys.push([0, 4, , 5]);
                         userObj = void 0;
                         _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type;
-                        return [4 /*yield*/, new User_1.default().authUsuario(user_name, password)];
+                        return [4 /*yield*/, User_1.default.getInstance().authUsuario(user_name, password)];
                     case 1:
                         userId = _b.sent();
                         console.log(userId);
                         if (userId === 0) {
                             // HTTP STATUS CODE 404
-                            throw new errorHandlerMiddleware_1.HttpExceptionError("ERROR_USER_NOT_FOUND");
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(404, "ERROR_USER_NOT_FOUND");
                         }
                         if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, new Avaliador_1.default().getByUserID(userId)];
+                        return [4 /*yield*/, Avaliador_1.default.getInstance().getByUserID(userId)];
                     case 2:
                         userObj = _b.sent();
                         _b.label = 3;

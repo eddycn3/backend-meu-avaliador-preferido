@@ -15,13 +15,13 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var HttpExceptionError = /** @class */ (function (_super) {
     __extends(HttpExceptionError, _super);
-    function HttpExceptionError(message, statusCode, reason) {
+    function HttpExceptionError(statusCode, message, reason) {
         var _this = _super.call(this) || this;
         _this.toString = function () {
-            return "HttpExceptionError (statusCode : " + _this.statusCode + ", message : " + _this.message + ", reason : " + _this.reason + ")";
+            return "HttpExceptionError (statusCode : " + _this.statusCode + ", message : " + _this.errorMsg + ", reason : " + _this.reason + ")";
         };
         _this.statusCode = statusCode;
-        _this.message = message;
+        _this.errorMsg = message;
         _this.reason = reason;
         return _this;
     }
@@ -31,10 +31,9 @@ exports.HttpExceptionError = HttpExceptionError;
 function handleError(error, request, response, next) {
     console.log(error.toString());
     var status = error.statusCode || 500;
-    var msg = error.message || "Algo ocorreu de errado";
+    var errorMsg = error.errorMsg || "Algo ocorreu de errado";
     return response.status(status).json({
-        status: status,
-        msg: msg,
+        errorMsg: errorMsg,
     });
 }
 exports.handleError = handleError;
