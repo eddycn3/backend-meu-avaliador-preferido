@@ -77,7 +77,7 @@ var AuthController = /** @class */ (function () {
                         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
                         if (checkAvaliador) {
                             // HTTP STATUS CODE 403
-                            throw new errorHandlerMiddleware_1.HttpExceptionError(400, checkAvaliador);
+                            throw new errorHandlerMiddleware_1.HttpExceptionError(403, checkAvaliador);
                         }
                         return [4 /*yield*/, userInstance.create(userInstance)];
                     case 3:

@@ -33,7 +33,7 @@ export class AuthController {
         /// "ERROR_EMAIL_EXISTS" / "ERROR_CPF_EXISTS" / "ERROR_IDCONFEF_EXISTS"
         if (checkAvaliador) {
           // HTTP STATUS CODE 403
-          throw new HttpExceptionError(400, checkAvaliador);
+          throw new HttpExceptionError(403, checkAvaliador);
         }
 
         usuario = await userInstance.create(userInstance);
