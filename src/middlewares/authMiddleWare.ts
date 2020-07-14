@@ -9,20 +9,21 @@ function authMiddleware(
 ) {
   const auth = request.headers.authorization;
 
-  if (!auth) return response.status(401).send({ error: "No token provided" });
+  if (!auth)
+    return response.status(401).send({ errorMsg: "NO_TOKEN_PROVIDED" });
 
   const parts = auth.split(" ");
 
   if (parts.length !== 2)
-    return response.status(401).send({ error: "Token error" });
+    return response.status(401).send({ errorMsg: "TOKEN_ERROR" });
 
   const [schema, token] = parts;
 
   if (!/^Bearer$/i.test(schema))
-    return response.status(401).send({ error: "Token malformed" });
+    return response.status(401).send({ errorMsg: "TOKEN_MALFORMED" });
 
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) return response.status(401).send({ error: "Invalid Token" });
+    if (err) return response.status(401).send({ errorMsg: "INVALID_TOKEN" });
     return next();
   });
 }
