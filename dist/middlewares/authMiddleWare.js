@@ -12,16 +12,16 @@ var secrets_1 = require("../utils/secrets");
 function authMiddleware(request, response, next) {
     var auth = request.headers.authorization;
     if (!auth)
-        return response.status(401).send({ error: "No token provided" });
+        return response.status(401).send({ errorMsg: "NO_TOKEN_PROVIDED" });
     var parts = auth.split(" ");
     if (parts.length !== 2)
-        return response.status(401).send({ error: "Token error" });
+        return response.status(401).send({ errorMsg: "TOKEN_ERROR" });
     var schema = parts[0], token = parts[1];
     if (!/^Bearer$/i.test(schema))
-        return response.status(401).send({ error: "Token malformed" });
+        return response.status(401).send({ errorMsg: "TOKEN_MALFORMED" });
     jwt.verify(token, secrets_1.JWT_SECRET, function (err, decoded) {
         if (err)
-            return response.status(401).send({ error: "Invalid Token" });
+            return response.status(401).send({ errorMsg: "INVALID_TOKEN" });
         return next();
     });
 }
