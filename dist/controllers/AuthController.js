@@ -115,38 +115,36 @@ var AuthController = /** @class */ (function () {
     };
     AuthController.prototype.authenticate = function (request, response, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var userObj, _a, user_name, password, user_type, userId, err_1;
+            var avaliador, _a, user_name, password, user_type, userId, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 4, , 5]);
-                        userObj = void 0;
+                        _b.trys.push([0, 3, , 4]);
+                        avaliador = void 0;
                         _a = request.body, user_name = _a.user_name, password = _a.password, user_type = _a.user_type;
                         return [4 /*yield*/, User_1.default.getInstance().authUsuario(user_name, password)];
                     case 1:
                         userId = _b.sent();
-                        console.log(userId);
                         if (userId === 0) {
                             // HTTP STATUS CODE 404
                             throw new errorHandlerMiddleware_1.HttpExceptionError(404, "ERROR_USER_NOT_FOUND");
                         }
-                        if (!(user_type === enums_1.UserType.Avalidor)) return [3 /*break*/, 3];
                         return [4 /*yield*/, Avaliador_1.default.getInstance().getByUserID(userId)];
                     case 2:
-                        userObj = _b.sent();
-                        _b.label = 3;
-                    case 3: return [2 /*return*/, response.json({
-                            id: userId,
-                            user_info: userObj,
-                            token: jwt.sign({ userId: userId }, secrets_1.JWT_SECRET, {
-                                expiresIn: 86400,
-                            }),
-                        })];
-                    case 4:
+                        // if (user_type === UserType.Avalidor) {
+                        avaliador = _b.sent();
+                        // }
+                        return [2 /*return*/, response.json({
+                                id: avaliador.id,
+                                token: jwt.sign({ userId: userId }, secrets_1.JWT_SECRET, {
+                                    expiresIn: 86400,
+                                }),
+                            })];
+                    case 3:
                         err_1 = _b.sent();
                         next(err_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

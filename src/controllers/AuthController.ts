@@ -71,25 +71,25 @@ export class AuthController {
     next: NextFunction
   ): Promise<Response> {
     try {
-      let userObj: object;
+      let avaliador: Avaliador;
       const { user_name, password, user_type } = request.body;
 
       const userId = await Usuario.getInstance().authUsuario(
         user_name,
         password
       );
-      console.log(userId);
+
       if (userId === 0) {
         // HTTP STATUS CODE 404
         throw new HttpExceptionError(404, "ERROR_USER_NOT_FOUND");
       }
 
-      if (user_type === UserType.Avalidor) {
-        userObj = await Avaliador.getInstance().getByUserID(userId);
-      }
+      // if (user_type === UserType.Avalidor) {
+      avaliador = await Avaliador.getInstance().getByUserID(userId);
+      // }
+
       return response.json({
-        id: userId,
-        user_info: userObj,
+        id: avaliador.id,
         token: jwt.sign({ userId }, JWT_SECRET, {
           expiresIn: 86400,
         }),
